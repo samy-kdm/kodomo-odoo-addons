@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Vue liste Rapport Z ─────────────────────────────────────────────── -->
+    <record id="view_pos_report_z_list" model="ir.ui.view">
+        <field name="name">pos.report.z.list</field>
+        <field name="model">pos.report.z</field>
+        <field name="arch" type="xml">
+            <list string="Rapports Z" decoration-danger="cash_difference_alert">
+                <field name="name"/>
+                <field name="session_id"/>
+                <field name="date_open"/>
+                <field name="date_close"/>
+                <field name="order_count"/>
+                <field name="amount_total_ttc" widget="monetary"/>
+                <field name="cash_difference" widget="monetary"/>
+                <field name="cash_difference_alert" invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'draft'"/>
+                <field name="is_reprint" string="Duplicata"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Vue formulaire Rapport Z ───────────────────────────────────────── -->
+    <record id="view_pos_report_z_form" model="ir.ui.view">
+        <field name="name">pos.report.z.form</field>
+        <field name="model">pos.report.z</field>
+        <field name="arch" type="xml">
+            <form string="Rapport Z" create="false" delete="false">
+                <header>
+                    <button name="action_print" string="Imprimer"
+                            type="object" class="btn-primary"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                        <div attrs="{'invisible': [('is_reprint', '=', False)]}">
+                            <span class="badge bg-danger">DUPLICATA</span>
+                        </div>
+                    </div>
+                    <group>
+                        <group string="Session">
+                            <field name="session_id" readonly="1"/>
+                            <field name="config_id" readonly="1"/>
+                            <field name="date_open" readonly="1"/>
+                            <field name="date_close" readonly="1"/>
+                            <field name="date_printed" readonly="1"/>
+                            <field name="order_count" readonly="1"/>
+                            <field name="order_ref_first" readonly="1"/>
+                            <field name="order_ref_last" readonly="1"/>
+                            <field name="employee_ids" readonly="1" widget="many2many_tags"/>
+                        </group>
+                        <group string="Ventes">
+                            <field name="amount_total_ht" readonly="1" widget="monetary"/>
+                            <field name="amount_tax" readonly="1" widget="monetary"/>
+                            <field name="amount_total_ttc" readonly="1" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Caisse espèces">
+                        <group>
+                            <field name="cash_start" readonly="1" widget="monetary"/>
+                            <field name="cash_transaction" readonly="1" widget="monetary"/>
+                            <field name="cash_out" readonly="1" widget="monetary"/>
+                            <field name="cash_theoretical" readonly="1" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="cash_counted" readonly="1" widget="monetary"/>
+                            <field name="cash_difference" readonly="1" widget="monetary"
+                                   decoration-danger="cash_difference_alert"/>
+                            <field name="cash_difference_alert" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Action fenêtre ─────────────────────────────────────────────────── -->
+    <record id="action_pos_report_z" model="ir.actions.act_window">
+        <field name="name">Rapports Z</field>
+        <field name="res_model">pos.report.z</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+</odoo>

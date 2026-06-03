@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Entrée de menu sous Point of Sale > Rapports > Rapports Z -->
+    <menuitem
+        id="menu_pos_report_z"
+        name="Rapports Z"
+        parent="point_of_sale.menu_point_of_sale_report"
+        action="action_pos_report_z"
+        sequence="20"
+        groups="point_of_sale.group_pos_manager"/>
+
+</odoo>

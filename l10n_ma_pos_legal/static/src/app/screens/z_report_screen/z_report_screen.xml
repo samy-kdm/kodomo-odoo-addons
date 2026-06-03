@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    z_report_screen.xml
+    ──────────────────────────────────────────────────────────────────────────
+    Template OWL de l'écran Rapport Z.
+
+    Structure attendue (dans l'ordre de la maquette) :
+    ───────────────────────────────────────────────────
+    1. DUPLICATA (si is_reprint=true) : bandeau rouge en haut
+    2. En-tête  : logo, POS NAME, ICE, IF, TP
+    3. Titre    : "Z Rapport" encadré
+    4. Session  : Session, Ouverture, Clôture, Caissier(s), Tickets N°→N°, Nb transactions
+    5. Ventes   : Total HT, TVA 20%, TOTAL TTC
+    6. Paiements: tableau Mode / Montant / Nb
+    7. Caisse   : Fond initial, Entrées, Retraits, Solde théorique,
+                  Solde compté, Écart (rouge + alerte si > 5 DH)
+    8. Code-barres + numéro Z
+    9. "Document généré le XX/XX/XXXX à HH:MM"
+
+    Alerte écart :
+    ─────────────
+    <span t-att-class="props.data.cash_difference_alert ? 'text-danger fw-bold' : ''">
+        <t t-esc="formatCurrency(props.data.cash_difference)"/>
+    </span>
+
+    Référence visuelle : z_report_mockup.html (80mm thermique)
+-->
+
+<!-- TODO : Claude Code implémente ce fichier -->
+<templates/>

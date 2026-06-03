@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    order_receipt_override.xml
+    ──────────────────────────────────────────────────────────────────────────
+    Héritage du template OWL du ticket POS.
+    Template à hériter : point_of_sale.OrderReceipt
+
+    Ce fichier est un PLACEHOLDER — Claude Code doit implémenter :
+
+    1. Hériter de point_of_sale.OrderReceipt en mode "extension"
+    2. Ajouter dans l'en-tête :
+       - Logo société (res.company.logo)
+       - Nom caisse : config.name (ex : "Kodomo MHA")
+       - ICE : company.company_registry
+       - IF  : company.l10n_ma_if
+       - TP  : company.l10n_ma_tp
+
+    3. Les données sont disponibles dans receiptInfo.company (injectées
+       via pos_order.py → _loader_params_res_company)
+
+    Pattern à suivre (depuis order_receipt.xml) :
+    ─────────────────────────────────────────────
+    <t t-name="l10n_ma_pos_legal.OrderReceipt"
+       t-inherit="point_of_sale.OrderReceipt"
+       t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="before">
+            <div class="pos-receipt-logo">
+                <img t-att-src="receiptInfo.company.logo_url" alt="Logo"/>
+            </div>
+            <div class="pos-receipt-legal">
+                <span>ICE : <t t-esc="receiptInfo.company.ice"/></span>
+                <span>IF : <t t-esc="receiptInfo.company.l10n_ma_if"/></span>
+                <span>TP : <t t-esc="receiptInfo.company.l10n_ma_tp"/></span>
+            </div>
+        </xpath>
+
+    </t>
+
+    Référence : order_receipt.xml ligne par ligne pour trouver les bons xpath.
+-->
+
+<!-- TODO : Claude Code implémente ce fichier -->
+<templates/>
