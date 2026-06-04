@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Entrée de menu sous Point of Sale > Rapports > Rapports Z -->
+    <!-- Sous-menu "Rapports" sous le menu racine Point of Sale.
+         menu_point_of_sale_report a été supprimé en Odoo 17+.
+         On crée notre propre entrée pour rester autonome. -->
+    <menuitem
+        id="menu_pos_legal_reports"
+        name="Rapports"
+        parent="point_of_sale.menu_point_root"
+        sequence="50"
+        groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"/>
+
+    <!-- Rapports Z → Point of Sale > Rapports > Rapports Z -->
     <menuitem
         id="menu_pos_report_z"
         name="Rapports Z"
-        parent="point_of_sale.menu_point_of_sale_report"
+        parent="l10n_ma_pos_legal.menu_pos_legal_reports"
         action="action_pos_report_z"
-        sequence="20"
+        sequence="10"
         groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"/>
 
 </odoo>
