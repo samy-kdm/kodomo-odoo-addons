@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    order_receipt_override.xml
-    ──────────────────────────────────────────────────────────────────────────
-    Héritage du template OWL du ticket POS.
-    Template à hériter : point_of_sale.OrderReceipt
+<templates xml:space="preserve">
+    <!--
+        Héritage de ReceiptHeader pour insérer les mentions légales marocaines
+        (ICE, TP, IF) après le logo, dans l'en-tête du ticket thermique.
 
-    Ce fichier est un PLACEHOLDER — Claude Code doit implémenter :
-
-    1. Hériter de point_of_sale.OrderReceipt en mode "extension"
-    2. Ajouter dans l'en-tête :
-       - Logo société (res.company.logo)
-       - Nom caisse : config.name (ex : "Kodomo MHA")
-       - ICE : company.company_registry
-       - IF  : company.l10n_ma_if
-       - TP  : company.l10n_ma_tp
-
-    3. Les données sont disponibles dans receiptInfo.company (injectées
-       via pos_order.py → _loader_params_res_company)
-
-    Pattern à suivre (depuis order_receipt.xml) :
-    ─────────────────────────────────────────────
-    <t t-name="l10n_ma_pos_legal.OrderReceipt"
-       t-inherit="point_of_sale.OrderReceipt"
+        Champs disponibles sur order.company grâce à _loader_params_res_company
+        dans pos_order.py :
+          - company_registry → ICE
+          - l10n_ma_tp       → TP (Taxe Professionnelle)
+          - l10n_ma_if       → IF (Identifiant Fiscal)
+    -->
+    <t t-name="l10n_ma_pos_legal.ReceiptHeader"
+       t-inherit="point_of_sale.ReceiptHeader"
        t-inherit-mode="extension">
 
-        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="before">
-            <div class="pos-receipt-logo">
-                <img t-att-src="receiptInfo.company.logo_url" alt="Logo"/>
-            </div>
-            <div class="pos-receipt-legal">
-                <span>ICE : <t t-esc="receiptInfo.company.ice"/></span>
-                <span>IF : <t t-esc="receiptInfo.company.l10n_ma_if"/></span>
-                <span>TP : <t t-esc="receiptInfo.company.l10n_ma_tp"/></span>
-            </div>
+        <xpath expr="//img[contains(@class,'pos-receipt-logo')]" position="after">
+            <t t-if="order.company.company_registry or order.company.l10n_ma_if or order.company.l10n_ma_tp">
+                <div class="text-center" style="font-size: 75%; margin-top: 4px; line-height: 1.6;">
+                    <div t-if="order.company.company_registry">
+                        ICE : <t t-esc="order.company.company_registry"/>
+                    </div>
+                    <div t-if="order.company.l10n_ma_tp or order.company.l10n_ma_if">
+                        <t t-if="order.company.l10n_ma_tp">TP : <t t-esc="order.company.l10n_ma_tp"/></t>
+                        <t t-if="order.company.l10n_ma_tp and order.company.l10n_ma_if">&#160;&#160;&#160;</t>
+                        <t t-if="order.company.l10n_ma_if">IF : <t t-esc="order.company.l10n_ma_if"/></t>
+                    </div>
+                </div>
+            </t>
         </xpath>
 
     </t>
-
-    Référence : order_receipt.xml ligne par ligne pour trouver les bons xpath.
--->
-
-<!-- TODO : Claude Code implémente ce fichier -->
-<templates/>
+</templates>

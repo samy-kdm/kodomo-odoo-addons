@@ -44,18 +44,9 @@
     # ── Assets frontend OWL ──────────────────────────────────────────────────
     'assets': {
         'point_of_sale._assets_pos': [
-            # Modèles Python étendus (champs custom injectés dans le POS)
-            # JS — composants OWL
-            'l10n_ma_pos_legal/static/src/app/components/navbar/z_report_button/z_report_button.js',
-            'l10n_ma_pos_legal/static/src/app/components/navbar/z_report_button/z_report_button.xml',
-
-            # Écran Z
-            'l10n_ma_pos_legal/static/src/app/screens/z_report_screen/z_report_screen.js',
-            'l10n_ma_pos_legal/static/src/app/screens/z_report_screen/z_report_screen.xml',
-
-            # Override ticket (order_receipt)
-            'l10n_ma_pos_legal/static/src/app/overrides/order_receipt_override.xml',
+            # Override ticket POS — mentions légales marocaines
             'l10n_ma_pos_legal/static/src/app/overrides/pos_order_override.js',
+            'l10n_ma_pos_legal/static/src/app/overrides/order_receipt_override.xml',
         ],
     },
 
