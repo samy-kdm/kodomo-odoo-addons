@@ -38,7 +38,7 @@
                 <sheet>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
-                        <div attrs="{'invisible': [('is_reprint', '=', False)]}">
+                        <div invisible="not is_reprint">
                             <span class="badge bg-danger">DUPLICATA</span>
                         </div>
                     </div>
