@@ -21,9 +21,7 @@
                         ICE : <t t-esc="order.company.company_registry"/>
                     </div>
                     <div t-if="order.company.l10n_ma_tp or order.company.l10n_ma_if">
-                        <t t-if="order.company.l10n_ma_tp">TP : <t t-esc="order.company.l10n_ma_tp"/></t>
-                        <t t-if="order.company.l10n_ma_tp and order.company.l10n_ma_if">&#160;&#160;&#160;</t>
-                        <t t-if="order.company.l10n_ma_if">IF : <t t-esc="order.company.l10n_ma_if"/></t>
+                        <t t-if="order.company.l10n_ma_tp">TP : <t t-esc="order.company.l10n_ma_tp"/></t><t t-if="order.company.l10n_ma_tp and order.company.l10n_ma_if">   </t><t t-if="order.company.l10n_ma_if">IF : <t t-esc="order.company.l10n_ma_if"/></t>
                     </div>
                 </div>
             </t>
