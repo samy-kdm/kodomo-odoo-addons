@@ -7,7 +7,7 @@
  * Ce fichier est un PLACEHOLDER — Claude Code doit implémenter :
  *
  * 1. Composant ZReportScreen héritant de Component
- * 2. Props : { data } (reçu depuis XZReportButton)
+ * 2. Props : { data } (reçu depuis ZReportButton)
  * 3. Template : affichage du rapport Z formaté (voir z_report_screen.xml)
  * 4. Alerte écart : si data.cash_difference_alert → afficher écart en rouge
  * 5. DUPLICATA : si data.is_reprint → afficher bandeau DUPLICATA en rouge

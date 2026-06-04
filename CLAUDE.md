@@ -12,8 +12,7 @@ un magasin de jouets à Mohammedia, Maroc, opérant sur `https://odoo.kodomo.ma`
 
 Le module s'appelle `l10n_ma_pos_legal`. Il ajoute au Point of Sale Odoo :
 1. Un **ticket POS** avec les mentions légales marocaines (ICE, IF, TP)
-2. Un **Rapport X** (lecture en cours de journée) accessible depuis la caisse
-3. Un **Rapport Z** (clôture de session) accessible depuis la caisse,
+2. Un **Rapport Z** (clôture de session) accessible depuis la caisse,
    avec snapshot persistant et numérotation légale
 
 ---
@@ -30,7 +29,7 @@ kodomo_pos_module/
 │   │   ├── __init__.py              ✅ complet
 │   │   ├── res_company.py           ✅ complet — champs IF, TP
 │   │   ├── pos_order.py             ✅ complet — injection champs légaux POS
-│   │   ├── pos_session.py           ✅ complet — hook clôture + get_x_report_data()
+│   │   ├── pos_session.py           ✅ complet — hook clôture
 │   │   └── pos_report_z.py          ✅ complet — modèle snapshot Z
 │   ├── security/
 │   │   └── ir.model.access.csv      ✅ complet
@@ -43,12 +42,9 @@ kodomo_pos_module/
 │       ├── overrides/
 │       │   ├── order_receipt_override.xml   ⬜ PLACEHOLDER — à implémenter
 │       │   └── pos_order_override.js        ⬜ PLACEHOLDER — à implémenter
-│       ├── components/navbar/x_z_report_button/
-│       │   └── x_z_report_button.js         ⬜ PLACEHOLDER — à implémenter
-│       │   └── x_z_report_button.xml        ⬜ À CRÉER
-│       ├── screens/x_report_screen/
-│       │   ├── x_report_screen.js           ⬜ PLACEHOLDER — à implémenter
-│       │   └── x_report_screen.xml          ⬜ PLACEHOLDER — à implémenter
+│       ├── components/navbar/z_report_button/
+│       │   └── z_report_button.js           ⬜ PLACEHOLDER — à implémenter
+│       │   └── z_report_button.xml          ⬜ À CRÉER
 │       └── screens/z_report_screen/
 │           ├── z_report_screen.js           ⬜ PLACEHOLDER — à implémenter
 │           └── z_report_screen.xml          ⬜ PLACEHOLDER — à implémenter
@@ -80,10 +76,8 @@ kodomo_pos_module/
 │           └── sales_detail_report.xml ← référence template rapport navbar ⭐
 │
 ├── receipt_mapping_odoo19.md        ← spec ticket — champs vérifiés live
-├── x_report_mapping_odoo19.md       ← spec rapport X — champs vérifiés live
 ├── z_report_mapping_odoo19.md       ← spec rapport Z — champs vérifiés live
 ├── receipt_mockup.html              ← maquette visuelle ticket 80mm
-├── x_report_mockup.html             ← maquette visuelle rapport X 80mm
 └── z_report_mockup.html             ← maquette visuelle rapport Z 80mm
 ```
 
@@ -133,7 +127,7 @@ Champs légaux société :
 
 | # | Sujet | Décision |
 |---|---|---|
-| 1 | Déclenchement X et Z | Bouton dans l'interface POS (OWL), sans quitter la caisse |
+| 1 | Déclenchement Z | Bouton dans l'interface POS (OWL), sans quitter la caisse |
 | 2 | Numéro légal ticket | `tracking_number` natif Odoo (`00042-001-0001`) — pas de séquence custom |
 | 3 | Séquence numéro Z | Standard Odoo `ir.sequence` format `Z/2026/00001` |
 | 4 | Caissiers sur le Z | Tous les `employee_id` distincts des commandes de la session |
@@ -176,9 +170,8 @@ Champs légaux société :
 ```
 1. order_receipt_override.xml   → ticket (le plus visible, facile à tester)
 2. pos_order_override.js        → injection données dans export_for_printing
-3. x_z_report_button.js/.xml   → bouton navbar
-4. x_report_screen.js/.xml     → écran Rapport X
-5. z_report_screen.js/.xml     → écran Rapport Z
+3. z_report_button.js/.xml     → bouton navbar
+4. z_report_screen.js/.xml     → écran Rapport Z
 ```
 
 ---
@@ -260,9 +253,9 @@ patch([NomExactClasse].prototype, {
 
 ---
 
-### 3. `x_z_report_button.js` + `x_z_report_button.xml` (fichier XML à créer)
+### 3. `z_report_button.js` + `z_report_button.xml` (fichier XML à créer)
 
-**Objectif :** Ajouter deux boutons dans la navbar du POS.
+**Objectif :** Ajouter un bouton Rapport Z dans la navbar du POS.
 
 **Lire avant de coder :**
 - `odoo_source_refs/pos_owl/navbar/sale_details_button.js` — pattern exact à suivre
@@ -271,10 +264,6 @@ patch([NomExactClasse].prototype, {
 
 **Comportement :**
 ```
-Bouton "Rapport X" :
-  → appel RPC : orm.call("pos.session", "get_x_report_data", [session.id])
-  → navigate vers XReportScreen avec les données reçues
-
 Bouton "Rapport Z" :
   → appel RPC : orm.call("pos.session", "get_z_report_data_for_pos", [session.id])
   → navigate vers ZReportScreen avec les données reçues
@@ -282,48 +271,11 @@ Bouton "Rapport Z" :
      ici on affiche juste un aperçu pour impression)
 ```
 
-**Note :** Ajouter aussi `get_z_report_data_for_pos()` dans `pos_session.py`
-si nécessaire — méthode similaire à `get_x_report_data()` mais pour prévisualisation.
+**Note :** Ajouter `get_z_report_data_for_pos()` dans `pos_session.py`.
 
 ---
 
-### 4. `x_report_screen.js` + `x_report_screen.xml`
-
-**Objectif :** Écran POS affichant le Rapport X formaté, prêt à imprimer.
-
-**Lire avant de coder :**
-- `odoo_source_refs/pos_owl/receipt/receipt_screen.js` — pattern écran POS
-- `x_report_mockup.html` — rendu visuel exact attendu
-- `x_report_mapping_odoo19.md` — spec complète
-
-**Structure de `props.data` reçu :**
-```javascript
-{
-  type: 'X',
-  printed_at,        // ISO string — horodatage du tirage
-  session_name,      // "Kodomo MHA/00019"
-  session_start,     // ISO string
-  cashier,           // "Salwa Houssni"
-  order_count,       // integer
-  total_ht,          // float
-  total_tax,         // float
-  total_ttc,         // float
-  nb_articles,       // float
-  payments: [{ method_name, amount, count }],
-  cash_start,        // float
-  cash_transaction,  // float
-  cash_retraits,     // float (négatif)
-  cash_theoretical,  // float
-  company: { name, ice, l10n_ma_if, l10n_ma_tp }
-}
-```
-
-**Règle importante :** Ne jamais afficher `cash_counted` ni `cash_difference`
-dans le Rapport X — réservés au Z.
-
----
-
-### 5. `z_report_screen.js` + `z_report_screen.xml`
+### 4. `z_report_screen.js` + `z_report_screen.xml`
 
 **Objectif :** Écran POS affichant le Rapport Z formaté, avec gestion
 DUPLICATA et alerte écart.
@@ -431,8 +383,7 @@ sudo -u odoo odoo -c /etc/odoo/odoo.conf -u l10n_ma_pos_legal -d kodomo --stop-a
 
 **Puis implémente `order_receipt_override.xml` et `pos_order_override.js`.**
 
-Une fois le ticket validé visuellement, passe au bouton X/Z,
-puis aux écrans X et Z dans cet ordre.
+Une fois le ticket validé visuellement, passe au bouton Z puis à l'écran Z.
 
 Pose une question si un chemin d'accès dans les fichiers source
 ne correspond pas à ce que tu attends — ne jamais supposer.

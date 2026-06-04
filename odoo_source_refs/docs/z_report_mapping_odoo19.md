@@ -21,21 +21,7 @@ Lien comptable    : session.move_id → account.move (écriture générée à la
 
 ---
 
-## Concept Rapport Z vs Rapport X
-
-| | Rapport Z | Rapport X |
-|---|---|---|
-| Déclencheur | Clôture de session | Lecture en cours de journée |
-| Source | `pos.session` state=`closed` | `pos.session` state=`opened` |
-| Données | **Figées** au moment de la clôture | Calculées en temps réel |
-| Écart caisse | ✅ Affiché (solde compté vs théorique) | ❌ Ne pas afficher |
-| Numérotation | Séquence légale inviolable | Compteur applicatif libre |
-| Unicité | 1 seul Z par session | Illimité |
-| Réimpression | Doit être identique à l'original | N/A |
-
----
-
-## 1. En-tête (identique ticket/X)
+## 1. En-tête
 
 | Élément maquette | Modèle | Champ vérifié | Statut | Valeur réelle |
 |---|---|---|---|---|

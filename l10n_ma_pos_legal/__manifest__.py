@@ -2,11 +2,10 @@
 {
     'name': 'Kodomo — POS Légal Maroc',
     'version': '19.0.1.0.0',
-    'summary': 'Ticket, Rapport X et Rapport Z conformes à la réglementation marocaine',
+    'summary': 'Ticket et Rapport Z conformes à la réglementation marocaine',
     'description': """
         Module custom pour Kodomo Jouet (KDM SMART HUB).
         - Ticket POS avec ICE, IF, TP, adresse bilingue
-        - Rapport X (lecture en cours de journée) déclenché depuis la caisse
         - Rapport Z (clôture de session) déclenché depuis la caisse
           avec snapshot persistant, numérotation légale et alerte écart > 5 DH
     """,
@@ -47,12 +46,10 @@
         'point_of_sale._assets_pos': [
             # Modèles Python étendus (champs custom injectés dans le POS)
             # JS — composants OWL
-            'l10n_ma_pos_legal/static/src/app/components/navbar/x_z_report_button/x_z_report_button.js',
-            'l10n_ma_pos_legal/static/src/app/components/navbar/x_z_report_button/x_z_report_button.xml',
+            'l10n_ma_pos_legal/static/src/app/components/navbar/z_report_button/z_report_button.js',
+            'l10n_ma_pos_legal/static/src/app/components/navbar/z_report_button/z_report_button.xml',
 
-            # Écrans X et Z
-            'l10n_ma_pos_legal/static/src/app/screens/x_report_screen/x_report_screen.js',
-            'l10n_ma_pos_legal/static/src/app/screens/x_report_screen/x_report_screen.xml',
+            # Écran Z
             'l10n_ma_pos_legal/static/src/app/screens/z_report_screen/z_report_screen.js',
             'l10n_ma_pos_legal/static/src/app/screens/z_report_screen/z_report_screen.xml',
 
